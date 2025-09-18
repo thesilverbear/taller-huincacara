@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <h1>{{ titulo }}</h1>
+
+    {# Mostrar mensajes flash para errores (ej. stock insuficiente) #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% set alert_type = 'info' %} {# Default #}
+    {% if category == 'success' %}{% set alert_type = 'success' %}
+    {% elif category == 'danger' %}{% set alert_type = 'danger' %}
+    {% elif category == 'warning' %}{% set alert_type = 'warning' %}
+    {% endif %}
+    <div class="alert alert-{{ alert_type }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
+    <form method="POST" action="" novalidate class="needs-validation">
+      {{ form.hidden_tag() }} {# Protección CSRF #}
+
+      {# Campo Repuesto (Select) #}
+      <div class="mb-3">
+        {{ form.repuesto_id.label(class="form-label") }}
+        {{ form.repuesto_id(class="form-select" + (" is-invalid" if form.repuesto_id.errors else "")) }}
+        {% if form.repuesto_id.errors %}
+        <div class="invalid-feedback">
+          {% for error in form.repuesto_id.errors %}
+          <span>{{ error }}</span><br>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      {# Campo Cantidad #}
+      <div class="mb-3">
+        {{ form.cantidad.label(class="form-label") }}
+        {{ form.cantidad(class="form-control" + (" is-invalid" if form.cantidad.errors else ""), type="number",
+        step="1", min="1") }}
+        {% if form.cantidad.errors %}
+        <div class="invalid-feedback">
+          {% for error in form.cantidad.errors %}
+          <span>{{ error }}</span><br>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      {# Campo Motivo (Textarea) #}
+      <div class="mb-3">
+        {{ form.motivo.label(class="form-label") }}
+        {{ form.motivo(class="form-control" + (" is-invalid" if form.motivo.errors else ""), rows=3) }} {# Usar rows
+        para textarea #}
+        {% if form.motivo.errors %}
+        <div class="invalid-feedback">
+          {% for error in form.motivo.errors %}
+          <span>{{ error }}</span><br>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      {# Campo Orden de Trabajo #}
+      <div class="mb-3">
+        {{ form.orden_trabajo.label(class="form-label") }}
+        {{ form.orden_trabajo(class="form-control" + (" is-invalid" if form.orden_trabajo.errors else ""), size=30) }}
+        {% if form.orden_trabajo.errors %}
+        <div class="invalid-feedback">
+          {% for error in form.orden_trabajo.errors %}
+          <span>{{ error }}</span><br>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      {# Botones #}
+      <div class="mt-4">
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('mermas.listar_mermas') }}" class="btn btn-secondary ms-2">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

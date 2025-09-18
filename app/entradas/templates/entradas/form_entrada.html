@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1>{{ titulo }}</h1>
+
+        {% include '_flash_messages.html' ignore missing %}
+
+        <form method="POST" action="" novalidate class="needs-validation">
+            {{ form.hidden_tag() }} {# Protección CSRF #}
+
+            {# Campo Repuesto (Select) #}
+            <div class="mb-3">
+                {{ form.repuesto_id.label(class="form-label") }}
+                {# Usar form-select para <select> #}
+                    {{ form.repuesto_id(class="form-select" + (" is-invalid" if form.repuesto_id.errors else "")) }}
+                    {% if form.repuesto_id.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in form.repuesto_id.errors %}
+                        <span>{{ error }}</span><br>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+            </div>
+
+            {# Campo Cantidad #}
+            <div class="mb-3">
+                {{ form.cantidad.label(class="form-label") }}
+                {{ form.cantidad(class="form-control" + (" is-invalid" if form.cantidad.errors else ""), type="number",
+                step="1", min="1") }}
+                {% if form.cantidad.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.cantidad.errors %}
+                    <span>{{ error }}</span><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            {# Botones #}
+            <div class="mt-4">
+                {{ form.submit(class="btn btn-primary") }}
+                <a href="{{ url_for('entradas.listar_entradas') }}" class="btn btn-secondary ms-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

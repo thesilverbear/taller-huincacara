@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1>{{ titulo }}</h1>
+
+        {% include '_flash_messages.html' ignore missing %}
+
+        <form method="POST" action="" novalidate class="needs-validation">
+            {{ form.hidden_tag() }} {# Protección CSRF #}
+
+            {# Campo Código Parte #}
+            <div class="mb-3">
+                {{ form.codigo_parte.label(class="form-label") }}
+                {{ form.codigo_parte(class="form-control" + (" is-invalid" if form.codigo_parte.errors else ""),
+                size=30) }}
+                {% if form.codigo_parte.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.codigo_parte.errors %}
+                    <span>{{ error }}</span><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            {# Campo Descripción #}
+            <div class="mb-3">
+                {{ form.descripcion.label(class="form-label") }}
+                {# Usar <textarea> para descripciones largas aunque WTForms lo renderiza como input por defecto #}
+          {{ form.descripcion(class="form-control" + (" is-invalid" if form.descripcion.errors else ""), rows=3) }} {# Añadir rows=3 #}
+          {% if form.descripcion.errors %}
+              <div class="invalid-feedback">
+                  {% for error in form.descripcion.errors %}
+                      <span>{{ error }}</span><br>
+                  {% endfor %}
+              </div>
+          {% endif %}
+        </div>
+
+        {# Campo Stock Inicial #}
+        <div class="mb-3">
+          {{ form.stock_inicial.label(class="form-label") }}
+          {{ form.stock_inicial(class="form-control" + (" is-invalid" if form.stock_inicial.errors else ""), type="number", step="1", min="0") }}
+          {% if form.stock_inicial.errors %}
+              <div class="invalid-feedback">
+                  {% for error in form.stock_inicial.errors %}
+                      <span>{{ error }}</span><br>
+                  {% endfor %}
+              </div>
+          {% endif %}
+        </div>
+
+        {# Botones #}
+        <div class="mt-4">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('core.listar_repuestos') }}" class="btn btn-secondary ms-2">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

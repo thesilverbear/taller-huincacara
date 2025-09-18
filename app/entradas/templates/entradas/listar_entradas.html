@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+{# --- Encabezado con Título y Botón Añadir --- #}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>{{ titulo }}</h1>
+    <a href="{{ url_for('entradas.nueva_entrada') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle-fill me-2"></i>Registrar Nueva Entrada
+    </a>
+</div>
+
+{# --- Comienza la lógica condicional para validar: ¿Hay entradas? --- #}
+{% if entradas %}
+{# --- Si hay entradas muestra la tabla --- #}
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered table-sm">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th> {# Columna de Fecha #}
+                <th>Código Parte</th>
+                <th>Descripción Repuesto</th>
+                <th class="text-end">Cantidad Recibida</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# --- Bucle para cada entrada --- #}
+            {% for entrada in entradas %}
+            <tr>
+                <td>{{ entrada.id }}</td>
+                {# --- Celda de Fecha con filtro local_time --- #}
+                <td>{{ entrada.fecha_entrada | local_time if entrada.fecha_entrada else 'N/A' }}</td>
+                {# --- Celdas con datos del repuesto relacionado --- #}
+                <td>{{ entrada.repuesto.codigo_parte if entrada.repuesto else '???' }}</td>
+                <td>{{ entrada.repuesto.descripcion if entrada.repuesto else 'Repuesto no encontrado' }}</td>
+                {# --- Celda de Cantidad alineada a la derecha --- #}
+                <td class="text-end">{{ entrada.cantidad }}</td>
+            </tr>
+            {% endfor %} {# --- Fin del bucle FOR --- #}
+        </tbody>
+    </table>
+</div> {# --- Fin del div table-responsive --- #}
+
+{# --- Parte ELSE: Si NO hay entradas --- #}
+{% else %}
+<div class="alert alert-info" role="alert">
+    No hay entradas registradas todavía.
+</div>
+{# --- FIN DEL BLOQUE IF/ELSE --- #}
+{% endif %}  {% endblock %} 

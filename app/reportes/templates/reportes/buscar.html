@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ titulo }}</h1>
+
+{# Formulario de Búsqueda #}
+<div class="card mb-4 shadow-sm">
+    <div class="card-header">
+        Criterios de Búsqueda
+    </div>
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('reportes.buscar') }}" novalidate>
+            <div class="row g-3 align-items-end">
+                {# Fila 1: Fechas #}
+                <div class="col-md">
+                    {{ form.fecha_inicio.label(class="form-label") }}
+                    {{ form.fecha_inicio(class="form-control") }}
+                </div>
+                <div class="col-md">
+                    {{ form.fecha_fin.label(class="form-label") }}
+                    {{ form.fecha_fin(class="form-control") }}
+                </div>
+                {# Fila 2: Selects #}
+                <div class="col-md">
+                    {{ form.repuesto_id.label(class="form-label") }}
+                    {{ form.repuesto_id(class="form-select") }}
+                </div>
+                <div class="col-md">
+                    {{ form.trabajador_id.label(class="form-label") }}
+                    {{ form.trabajador_id(class="form-select") }}
+                </div>
+                {# Fila 3: OT y Botones #}
+                <div class="col-md">
+                    {{ form.orden_trabajo.label(class="form-label") }}
+                    {{ form.orden_trabajo(class="form-control", size=20, placeholder="Buscar por OT...") }}
+                </div>
+                <div class="col-auto">
+                    <button type="submit" name="submit" value="Buscar" class="btn btn-primary"><i
+                            class="bi bi-search me-2"></i>Buscar / Filtrar</button>
+                    <a href="{{ url_for('reportes.buscar') }}" class="btn btn-outline-secondary ms-2"><i
+                            class="bi bi-eraser-fill me-2"></i>Limpiar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{# --- Sección de Resultados --- #}
+<h2>Resultados</h2>
+
+{# --- Tabla Resultados: Entradas --- #}
+{% if entradas %}
+<h3>Entradas Encontradas</h3>
+<div class="table-responsive mb-4">
+    <table class="table table-striped table-hover table-bordered table-sm">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Código Parte</th>
+                <th>Descripción</th>
+                <th class="text-end">Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entrada in entradas %}
+            <tr>
+                <td>{{ entrada.id }}</td>
+                {# Fecha con filtro local_time #}
+                <td>{{ entrada.fecha_entrada | local_time if entrada.fecha_entrada else 'N/A' }}</td>
+                <td>{{ entrada.repuesto.codigo_parte if entrada.repuesto else '???' }}</td>
+                <td>{{ entrada.repuesto.descripcion if entrada.repuesto else '???' }}</td>
+                <td class="text-end">{{ entrada.cantidad }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %} {# --- Fin if entradas --- #}
+
+{# --- Tabla Resultados: Asignaciones --- #}
+{% if asignaciones %}
+<h3>Asignaciones Encontradas</h3>
+<div class="table-responsive mb-4">
+    <table class="table table-striped table-hover table-bordered table-sm">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Trabajador</th>
+                <th>Código Parte</th>
+                <th>Descripción</th>
+                <th class="text-end">Cantidad</th>
+                <th>OT</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asignacion in asignaciones %}
+            <tr>
+                <td>{{ asignacion.id }}</td>
+                {# Fecha con filtro local_time #}
+                <td>{{ asignacion.fecha_asignacion | local_time if asignacion.fecha_asignacion else 'N/A' }}</td>
+                <td>{{ asignacion.trabajador.nombre if asignacion.trabajador else '???' }}</td>
+                <td>{{ asignacion.repuesto.codigo_parte if asignacion.repuesto else '???' }}</td>
+                <td>{{ asignacion.repuesto.descripcion if asignacion.repuesto else '???' }}</td>
+                <td class="text-end">{{ asignacion.cantidad }}</td>
+                <td>{{ asignacion.orden_trabajo if asignacion.orden_trabajo else '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %} {# --- Fin if asignaciones --- #}
+
+{# --- Tabla Resultados: Mermas --- #}
+{% if mermas %}
+<h3>Mermas Encontradas</h3>
+<div class="table-responsive mb-4">
+    <table class="table table-striped table-hover table-bordered table-sm">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Código Parte</th>
+                <th>Descripción</th>
+                <th class="text-end">Cantidad</th>
+                <th>Motivo</th>
+                <th>OT</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for merma in mermas %}
+            <tr>
+                <td>{{ merma.id }}</td>
+                {# Fecha con filtro local_time #}
+                <td>{{ merma.fecha_merma | local_time if merma.fecha_merma else 'N/A' }}</td>
+                <td>{{ merma.repuesto.codigo_parte if merma.repuesto else '???' }}</td>
+                <td>{{ merma.repuesto.descripcion if merma.repuesto else '???' }}</td>
+                <td class="text-end">{{ merma.cantidad }}</td>
+                <td>{{ merma.motivo if merma.motivo else '-' }}</td>
+                <td>{{ merma.orden_trabajo if merma.orden_trabajo else '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %} {# --- Fin if mermas --- #}
+
+{# --- Mensaje si no hay resultados después de buscar --- #}
+{% if request.args.get('submit') and not entradas and not asignaciones and not mermas %}
+<div class="alert alert-warning" role="alert">
+    No se encontraron registros que coincidan con los criterios de búsqueda.
+</div>
+{% endif %} {# --- Fin if sin resultados --- #}
+
+{% endblock %}

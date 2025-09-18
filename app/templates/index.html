@@ -1,0 +1,27 @@
+<!-- Landing page html extendido de base.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <div class="row align-items-center"> {# align-items-center para alinear verticalmente #}
+
+            {# --- Columna para el Texto (7 de 12 columnas en tamaño mediano y superior con col-md-7) --- #}
+            <div class="col-md-7">
+                <h1 class="display-5 fw-bold">Bienvenido a Taller Huincacara</h1>
+                <p class="fs-4">Tu taller vecino, como los de antes.
+                    Del Argentino y su familia para nuestra querida zona lacustre.🧑‍🔧</p>
+                <p>Fierrer@, usa el menú para acceder a las distintas secciones del sistema.</p>
+            </div>
+
+            {# --- Columna para el Logo (5 de 12 columnas en tamaño mediano y superior) --- #}
+            <div class="col-md-5 text-center"> {# text-center para centrar imagen en su columna #}
+                <img src="{{ url_for('static', filename='img/taller-huincacara.png') }}" alt="Logo Taller Huincacara"
+                    class="img-fluid rounded" {# img-fluid para responsive, rounded opcional #}
+                    style="max-height: 150px;"> {# Limitar altura máxima de la imagen aquí #}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

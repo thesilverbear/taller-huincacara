@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center"> {# Centrar el formulario un poco #}
+    <div class="col-md-8 col-lg-6"> {# Limitar el ancho #}
+
+        {# --- Inicio: Envolver en Card con Sombra --- #}
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="mb-0">{{ titulo }}</h5> {# Usar h5 o h4 para título dentro de card #}
+            </div>
+            <div class="card-body">
+                {% include '_flash_messages.html' ignore missing %} 
+                {# --- Si no tienes _flash_messages.html, usa el bloque de base.html: ---#}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                {% set alert_type = 'info' %} {# Default #}
+                {% if category == 'success' %}{% set alert_type = 'success' %}
+                {% elif category == 'danger' %}{% set alert_type = 'danger' %}
+                {% elif category == 'warning' %}{% set alert_type = 'warning' %}
+                {% endif %}
+                <div class="alert alert-{{ alert_type }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                {# --- Fin bloque flash ---#}
+
+
+                <form method="POST" action="" novalidate class="needs-validation">
+                    {{ form.hidden_tag() }} {# Protección CSRF #}
+
+                    {# Campo Nombre #}
+                    <div class="mb-3">
+                        {{ form.nombre.label(class="form-label") }}
+                        {# Añadido placeholder #}
+                        {{ form.nombre(class="form-control" + (" is-invalid" if form.nombre.errors else ""), size=30,
+                        placeholder="Ingrese el nombre completo") }}
+                        {% if form.nombre.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.nombre.errors %}
+                            <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {# Campo Identificador #}
+                    <div class="mb-3">
+                        {{ form.identificador.label(class="form-label") }}
+                        {# Añadido placeholder #}
+                        {{ form.identificador(class="form-control" + (" is-invalid" if form.identificador.errors else
+                        ""), size=20, placeholder="Ej: JP001, 12345678-9") }}
+                        {% if form.identificador.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.identificador.errors %}
+                            <span>{{ error }}</span><br>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {# Botones #}
+                    <div class="mt-4"> {# Margen superior antes de botones #}
+                        {# Botón Guardar con icono #}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save-fill me-2"></i>Guardar Trabajador
+                        </button>
+                        {# Botón Cancelar con icono #}
+                        <a href="{{ url_for('core.listar_trabajadores') }}" class="btn btn-secondary ms-2">
+                            <i class="bi bi-x-circle me-2"></i>Cancelar
+                        </a>
+                    </div>
+
+                </form> {# --- Fin del Form --- #}
+            </div> {# --- Fin Card Body --- #}
+        </div> {# --- Fin Card --- #}
+    </div> {# --- Fin Columna --- #}
+</div> {# --- Fin Row --- #}
+{% endblock %}

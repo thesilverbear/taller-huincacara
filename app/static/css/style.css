@@ -1,0 +1,101 @@
+/* Este archivo CSS implementa algunas personalizaciones al estilo del proyecto, la mayoría de estilos y sombreados
+ya están correctamente manejados por Bootstrap a través de los contenedores. */
+
+/* --- Paleta de Colores Ford --- */
+:root {
+    --ford-blue: #003478;
+    /* azul Ford */
+    --ford-blue-darker: #002a60;
+    /* azul poco más oscuro para hover */
+    --ford-blue-rgb: 0, 52, 120;
+    /* versión RGB para variables Bootstrap */
+    --ford-blue-darker-rgb: 0, 42, 96;
+    /* versión RGB oscura */
+    --bs-font-sans-serif: "Sansation", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    /* Fuente principal Sansation similar a la del branding de Ford.cl */
+
+    /* Sobrescribir variables de color primario de Bootstrap */
+    --bs-primary: var(--ford-blue);
+    --bs-primary-rgb: var(--ford-blue-rgb);
+
+    /* Sobrescribir color de enlaces para forzar el azul de Ford nuevamente */
+    --bs-link-color: var(--ford-blue);
+    --bs-link-color-rgb: var(--ford-blue-rgb);
+    --bs-link-hover-color: var(--ford-blue-darker);
+}
+
+
+body {
+    background-color: #f8f9fa;
+    font-family: var(--bs-font-sans-serif);
+    /* Aplicar la fuente Poppins */
+    padding-bottom: 60px;
+    min-height: 100vh;
+    /*Implementado para que el footer no se suba si hay poco contenido */
+}
+
+/*títulos un poco más bold */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+}
+
+/*Barra de navegación: */
+.navbar-brand {
+    font-weight: 700;
+}
+
+
+/* Estilos para el logo en la Navbar */
+.navbar-brand img {
+    max-height: 35px;
+    width: auto;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+
+/* Botones */
+.btn {
+    font-weight: 400;
+}
+
+
+/* Tablas */
+.table {
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+.table thead th {
+    font-weight: 700;
+}
+
+/* Formularios */
+.form-label {
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+/* Footer */
+footer {
+    border-top: 1px solid #dee2e6;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+footer p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+/* Badges */
+.badge {
+    font-size: 0.8em;
+    font-weight: 700;
+}

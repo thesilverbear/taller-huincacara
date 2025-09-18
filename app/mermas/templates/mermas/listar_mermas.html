@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>{{ titulo }}</h1>
+    <a href="{{ url_for('mermas.nueva_merma') }}" class="btn btn-primary">
+        <i class="bi bi-trash-fill me-2"></i>Registrar Nueva Merma
+    </a>
+</div>
+
+{# --- Inicio Bloque IF --- #}
+{% if mermas %}
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered table-sm">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th> {# Columna Fecha #}
+                <th>Código Parte</th>
+                <th>Descripción Repuesto</th>
+                <th class="text-end">Cantidad Perdida</th>
+                <th>Motivo</th>
+                <th>Orden Trabajo (si aplica)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# --- Inicio Bucle FOR --- #}
+            {% for merma in mermas %}
+            <tr>
+                <td>{{ merma.id }}</td>
+                {# --- Fecha con filtro local_time --- #}
+                <td>{{ merma.fecha_merma | local_time if merma.fecha_merma else 'N/A' }}</td>
+                {# --- Datos relacionados --- #}
+                <td>{{ merma.repuesto.codigo_parte if merma.repuesto else '???' }}</td>
+                <td>{{ merma.repuesto.descripcion if merma.repuesto else 'Repuesto no encontrado' }}</td>
+                <td class="text-end">{{ merma.cantidad }}</td>
+                <td>{{ merma.motivo if merma.motivo else '-' }}</td>
+                <td>{{ merma.orden_trabajo if merma.orden_trabajo else '-' }}</td>
+            </tr>
+            {% endfor %} {# --- Fin Bucle FOR --- #}
+        </tbody>
+    </table>
+</div> {# --- Fin table-responsive --- #}
+
+{# --- Bloque ELSE --- #}
+{% else %}
+<div class="alert alert-info" role="alert">
+    No hay mermas registradas todavía.
+</div>
+{# --- FIN Bloque IF/ELSE --- #}
+{% endif %} {# <<--- Cierre del IF principal --- #} {% endblock %}
