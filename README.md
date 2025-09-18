@@ -1,6 +1,6 @@
 # Sistema de Gestión de Inventario para Lubricentro Huincacara
 
-![Logo Lubricentro](https://imgur.com/a/ekZrcBH) <!-- Opcional: Reemplaza este link por un logo que subas a imgur o similar -->
+(https://imgur.com/a/ekZrcBH) 
 
 ## Descripción del Proyecto
 
