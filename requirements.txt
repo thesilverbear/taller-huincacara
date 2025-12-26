@@ -5,4 +5,5 @@ mysql-connector-python          #Driver de Python para MySQL
 python-dotenv                   #Para cargar variables de config desde un archivo .env
 Flask-WTF                       #Para el manejo de formularios en Flask
 pytz                            #Libreria para TimeZones y así mostrar hora en Chile
-gunicorn                        #Servidor WSGI de producción 
+
+gunicorn                        #Servidor WSGI de producción.
