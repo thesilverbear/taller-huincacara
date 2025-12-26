@@ -5,5 +5,6 @@ from app import create_app # Importa la función factory desde app/__init__.py
 app = create_app()
 
 if __name__ == '__main__':
-    # Ejecuta el servidor de desarrollo de Flask, puerto por defecto port 5000
+    # Ejecuta el servidor de desarrollo de Flask, puerto por defecto port 5000 se puede modificar
+
     app.run(host='0.0.0.0')
