@@ -1,101 +1,133 @@
-/* Este archivo CSS implementa algunas personalizaciones al estilo del proyecto, la mayoría de estilos y sombreados
-ya están correctamente manejados por Bootstrap a través de los contenedores. */
+/* UPDATE DIC 2025: Este archivo CSS implementa ahora personalizaciones de estil, ergonomía y accesibilidad. */
 
-/* --- Paleta de Colores Ford --- */
+/* --- Paleta de Colores Ford & Variables de Accesibilidad --- */
 :root {
-    --ford-blue: #003478;
-    /* azul Ford */
+    --ford-blue: #003478; /* Ratio de contraste > 7:1 contra blanco (AAA) conforme a WCAG */
     --ford-blue-darker: #002a60;
-    /* azul poco más oscuro para hover */
     --ford-blue-rgb: 0, 52, 120;
-    /* versión RGB para variables Bootstrap */
     --ford-blue-darker-rgb: 0, 42, 96;
-    /* versión RGB oscura */
-    --bs-font-sans-serif: "Sansation", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    /* Fuente principal Sansation similar a la del branding de Ford.cl */
+    
+    /* [UPDATE DIC 2025] Tipografía base ajustada para mejor legibilidad */
+    --bs-font-sans-serif: "Sansation", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    
+    /* [UPDATE DIC 2025] Variable de texto de alto contraste */
+    --text-high-contrast: #212529; 
 
-    /* Sobrescribir variables de color primario de Bootstrap */
+    /* Sobrescribir variables de Bootstrap */
     --bs-primary: var(--ford-blue);
     --bs-primary-rgb: var(--ford-blue-rgb);
-
-    /* Sobrescribir color de enlaces para forzar el azul de Ford nuevamente */
     --bs-link-color: var(--ford-blue);
-    --bs-link-color-rgb: var(--ford-blue-rgb);
     --bs-link-hover-color: var(--ford-blue-darker);
 }
-
 
 body {
     background-color: #f8f9fa;
     font-family: var(--bs-font-sans-serif);
-    /* Aplicar la fuente Poppins */
+    color: var(--text-high-contrast); /* Asegura contraste alto */
     padding-bottom: 60px;
     min-height: 100vh;
-    /*Implementado para que el footer no se suba si hay poco contenido */
+    /* [UPDATE DIC 2025] Aumento de interlineado para accesibilidad cognitiva */
+    line-height: 1.6; 
 }
 
-/*títulos un poco más bold */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+/* Títulos más legibles */
+h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
+    color: var(--ford-blue); /* Jerarquía visual clara */
+    margin-bottom: 1rem;
 }
 
-/*Barra de navegación: */
+/* --- Barra de Navegación --- */
 .navbar-brand {
     font-weight: 700;
+    font-size: 1.5rem; /* Logo más grande y legible */
 }
 
-
-/* Estilos para el logo en la Navbar */
 .navbar-brand img {
-    max-height: 35px;
+    max-height: 40px; /* Aumento ligero tamaño logo */
     width: auto;
     vertical-align: middle;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
+/* [UPDATE DIC 2025] Enlaces de navegación con mayor área de clic */
+.nav-link {
+    padding: 0.8rem 1rem !important; 
+    font-size: 1.1rem;
+}
 
-/* Botones */
+/* --- Botones (Ley de Fitts y Ergonomía Táctil) */
+/* [UPDATE DIC 2025] Botones más grandes para facilitar el toque en móviles */
 .btn {
-    font-weight: 400;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem; /* Padding aumentado para área táctil */
+    font-size: 1.05rem;       /* Texto más grande para que sea mas facil de leer */
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
 }
 
+/* Indicador visual de foco para navegación por teclado */
+.btn:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 52, 120, 0.5); 
+    outline: 3px solid #ffc107; /* Contraste adicional en foco */
+}
 
-/* Tablas */
+/* --- Tablas mas accesibles */
 .table {
-    font-size: 0.95rem;
+    font-size: 1rem; /* [UPDATE] Aumento de 0.95rem a 1rem */
     vertical-align: middle;
 }
 
 .table thead th {
     font-weight: 700;
+    background-color: #e9ecef; /* Diferenciación visual del encabezado */
+    color: var(--ford-blue);
+    padding: 1rem; /* Más espacio para leer */
 }
 
-/* Formularios */
+.table tbody td {
+    padding: 1rem 0.75rem; /* Celdas más altas para evitar errores de lectura */
+}
+
+/* edit de  Formularios (Accesibilidad y Prevención de Errores) */
 .form-label {
     font-weight: 700;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--ford-blue);
+    font-size: 1.1rem; /* Etiquetas más grandes */
 }
 
-/* Footer */
+/* [UPDATE DIC 2025] Inputs y Selects más grandes para motricidad reducida */
+.form-control, .form-select {
+    padding: 0.75rem 1rem; /* Área de toque ampliada */
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--ford-blue);
+    box-shadow: 0 0 0 0.25rem rgba(0, 52, 120, 0.25);
+}
+
+/* --- Footer --- */
 footer {
     border-top: 1px solid #dee2e6;
     margin-top: 3rem;
-    padding-top: 1.5rem;
-    padding-bottom: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: white;
 }
 
 footer p {
     margin-bottom: 0;
-    font-size: 0.9rem;
+    font-size: 1rem; /* Texto footer legible, no "letra chica" */
 }
 
-/* Badges */
+/* --- Badges / Etiquetas --- */
 .badge {
-    font-size: 0.8em;
+    font-size: 0.9em; /* update requerimientos de accesibilidad Aumento de tamaño */
     font-weight: 700;
+    padding: 0.5em 0.8em;
+    letter-spacing: 0.5px;
 }
